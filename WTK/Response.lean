@@ -28,9 +28,13 @@ theorem rank_one_stress {n : Type*} [Fintype n] (u v : n → ℝ)
     (1 / 2) * ∑ i, ∑ j, (u i * u j - v i * v j) ^ 2 = 1 - (u ⬝ᵥ v) ^ 2 := by
   have e : ∑ i, ∑ j, (u i * u j - v i * v j) ^ 2 =
       (u ⬝ᵥ u) * (u ⬝ᵥ u) - 2 * ((u ⬝ᵥ v) * (u ⬝ᵥ v)) + (v ⬝ᵥ v) * (v ⬝ᵥ v) := by
-    simp only [dotProduct, Finset.sum_mul_sum, Finset.mul_sum, ← Finset.sum_sub_distrib,
-      ← Finset.sum_add_distrib]
-    exact Finset.sum_congr rfl (fun i _ => Finset.sum_congr rfl (fun j _ => by ring))
+    simp only [dotProduct]
+    rw [Finset.sum_mul_sum, Finset.sum_mul_sum, Finset.sum_mul_sum, Finset.mul_sum]
+    simp only [Finset.mul_sum]
+    rw [← Finset.sum_sub_distrib, ← Finset.sum_add_distrib]
+    refine Finset.sum_congr rfl (fun i _ => ?_)
+    rw [← Finset.sum_sub_distrib, ← Finset.sum_add_distrib]
+    exact Finset.sum_congr rfl (fun j _ => by ring)
   rw [e, hu, hv]
   ring
 
@@ -136,17 +140,17 @@ variable {ι β ο : Type*} [Fintype ι] [Fintype β] [Fintype ο]
   [DecidableEq ι] [DecidableEq β] [DecidableEq ο]
 
 /-- The boundary operator `K_Σ = D_Σ - C A⁻¹ B - G E⁻¹ F`, with explicit inverses. -/
-def boundaryOp (DΣ : Matrix β β ℝ) (C : Matrix β ι ℝ) (Ai : Matrix ι ι ℝ) (B : Matrix ι β ℝ)
+def boundaryOp (Ds : Matrix β β ℝ) (C : Matrix β ι ℝ) (Ai : Matrix ι ι ℝ) (B : Matrix ι β ℝ)
     (G : Matrix β ο ℝ) (Ei : Matrix ο ο ℝ) (F : Matrix ο β ℝ) : Matrix β β ℝ :=
-  DΣ - C * Ai * B - G * Ei * F
+  Ds - C * Ai * B - G * Ei * F
 
 /-- Proposition 10: if the interior and exterior block equations hold, `A u_I + B u_Σ = 0` and
 `F u_Σ + E u_O = 0`, the middle equation reads `C u_I + D_Σ u_Σ + G u_O = K_Σ u_Σ`. -/
 theorem boundary_elimination (A Ai : Matrix ι ι ℝ) (B : Matrix ι β ℝ) (C : Matrix β ι ℝ)
-    (DΣ : Matrix β β ℝ) (G : Matrix β ο ℝ) (E Ei : Matrix ο ο ℝ) (F : Matrix ο β ℝ)
+    (Ds : Matrix β β ℝ) (G : Matrix β ο ℝ) (E Ei : Matrix ο ο ℝ) (F : Matrix ο β ℝ)
     (hA : Ai * A = 1) (hE : Ei * E = 1) (uI : ι → ℝ) (uS : β → ℝ) (uO : ο → ℝ)
     (h1 : A *ᵥ uI + B *ᵥ uS = 0) (h3 : F *ᵥ uS + E *ᵥ uO = 0) :
-    C *ᵥ uI + DΣ *ᵥ uS + G *ᵥ uO = boundaryOp DΣ C Ai B G Ei F *ᵥ uS := by
+    C *ᵥ uI + Ds *ᵥ uS + G *ᵥ uO = boundaryOp Ds C Ai B G Ei F *ᵥ uS := by
   have hI : uI = -((Ai * B) *ᵥ uS) := by
     have := congrArg (fun x => Ai *ᵥ x) h1
     simp only [Matrix.mulVec_add, Matrix.mulVec_mulVec, hA, Matrix.one_mulVec,
@@ -163,10 +167,10 @@ theorem boundary_elimination (A Ai : Matrix ι ι ℝ) (B : Matrix ι β ℝ) (C
 
 /-- Proposition 10, exterior sensitivity (exact): replacing `E` by `E'` moves the boundary
 operator by `G E⁻¹ (E' - E) E'⁻¹ F`; to first order this is `G E⁻¹ δE E⁻¹ F`. -/
-theorem exterior_sensitivity (DΣ : Matrix β β ℝ) (C : Matrix β ι ℝ) (Ai : Matrix ι ι ℝ)
+theorem exterior_sensitivity (Ds : Matrix β β ℝ) (C : Matrix β ι ℝ) (Ai : Matrix ι ι ℝ)
     (B : Matrix ι β ℝ) (G : Matrix β ο ℝ) (E E' Ei Ei' : Matrix ο ο ℝ) (F : Matrix ο β ℝ)
     (hE : Ei * E = 1) (hE' : E' * Ei' = 1) :
-    boundaryOp DΣ C Ai B G Ei' F - boundaryOp DΣ C Ai B G Ei F =
+    boundaryOp Ds C Ai B G Ei' F - boundaryOp Ds C Ai B G Ei F =
       G * (Ei * (E' - E) * Ei') * F := by
   have key : Ei * (E' - E) * Ei' = Ei - Ei' := by
     rw [Matrix.mul_sub, Matrix.sub_mul, Matrix.mul_assoc, hE', Matrix.mul_one, hE,

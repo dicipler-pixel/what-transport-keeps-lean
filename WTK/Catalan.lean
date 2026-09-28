@@ -59,7 +59,8 @@ theorem catalan_cancellation (G L : ℝ) : A *ᵥ ((U0ᵀ)⁻¹ *ᵥ f G L) = ![
   have hdet : IsUnit (U0ᵀ).det := by
     rw [Matrix.det_transpose, U0_det]
     exact isUnit_iff_ne_zero.mpr (by norm_num)
-  rw [← U0T_v, Matrix.mulVec_mulVec, Matrix.nonsing_inv_mul _ hdet, Matrix.one_mulVec, A_v]
+  rw [← U0T_v, Matrix.mulVec_mulVec (v G L) (U0ᵀ)⁻¹ U0ᵀ, Matrix.nonsing_inv_mul _ hdet,
+    Matrix.one_mulVec, A_v]
 
 /-- The coefficient matrix `J` with `f = J (G, log 2, 1)ᵀ`. -/
 noncomputable def J : Matrix (Fin 3) (Fin 3) ℝ :=

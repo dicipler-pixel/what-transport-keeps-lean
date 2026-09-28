@@ -5,8 +5,9 @@ import Mathlib
 
 `Tm n k` is the column-transport matrix `T(n, k)` of the two-parameter Meijer-G field
 reconstructed in Section 4, `Lm n k` the `n`-step `L(n, k)`, and `Mm n` the official
-Question 5 polynomial matrix `M(n)`. The entries are exactly those of `cmf_explicit.py` in the
-paper's code package, with each denominator written in factored form.
+Question 5 polynomial matrix `M(n)`. `T` and `L` are written over their common denominators,
+`T = Tnum / D(n)` and `L = Lnum / E(k)`, with `Tnum`, `Lnum` polynomial matrices; the entries
+agree exactly with those of `cmf_explicit.py` in the paper's code package.
 
 Proved here, as identities of rational functions on the domain where the denominators are
 nonzero:
@@ -26,49 +27,80 @@ open Matrix
 
 namespace WTK.Field
 
-def Tm (n k : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
-  !![(36*k^2*n^2 + 152*k^2*n + 156*k^2 - 104*k*n^3 - 668*k*n^2 - 1420*k*n - 996*k + 68*n^4 + 580*n^3 + 1848*n^2 + 2604*n + 1368) / ((n + 1)*(n + 3)*(2*n + 3)*(2*n + 5)), (8*k^2*n^2 + 28*k^2*n + 20*k^2 - 72*k*n^3 - 412*k*n^2 - 784*k*n - 504*k + 96*n^4 + 780*n^3 + 2384*n^2 + 3273*n + 1723) / ((n + 1)*(n + 2)*(n + 3)*(2*n + 3)*(2*n + 5)), (-28*k^2*n - 68*k^2 + 48*k*n^2 + 304*k*n + 456*k - 120*n^2 - 585*n - 715) / ((n + 1)*(n + 2)*(n + 3)*(2*n + 3)*(2*n + 5));
-    (14*k^2*n + 24*k^2 - 38*k*n^2 - 153*k*n - 150*k + 24*n^3 + 149*n^2 + 304*n + 204) / ((n + 1)*(2*n + 3)), (8*k^2*n + 8*k^2 - 56*k*n^2 - 188*k*n - 162*k + 68*n^3 + 398*n^2 + 778*n + 523) / (2*(n + 1)*(n + 2)*(2*n + 3)), (-20*k^2 + 32*k*n + 132*k - 80*n - 205) / (2*(n + 1)*(n + 2)*(2*n + 3));
-    (20*k^2*n^2 + 98*k^2*n + 108*k^2 - 52*k*n^3 - 380*k*n^2 - 889*k*n - 666*k + 32*n^4 + 306*n^3 + 1069*n^2 + 1620*n + 900) / (2*(n + 1)*(2*n + 3)), (16*k^2*n^2 + 64*k^2*n + 48*k^2 - 88*k*n^3 - 580*k*n^2 - 1200*k*n - 798*k + 96*n^4 + 884*n^3 + 2970*n^2 + 4360*n + 2403) / (4*(n + 1)*(n + 2)*(2*n + 3)), (-24*k^2*n - 84*k^2 + 32*k*n^2 + 272*k*n + 540*k + 8*n^3 - 44*n^2 - 478*n - 801) / (4*(n + 1)*(n + 2)*(2*n + 3))]
+def Tnum (n k : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
+  !![(144*k^2*n^3 + 896*k^2*n^2 + 1840*k^2*n + 1248*k^2 - 416*k*n^4 - 3504*k*n^3 - 11024*k*n^2 - 15344*k*n - 7968*k + 272*n^5 + 2864*n^4 + 12032*n^3 + 25200*n^2 + 26304*n + 10944), (32*k^2*n^2 + 112*k^2*n + 80*k^2 - 288*k*n^3 - 1648*k*n^2 - 3136*k*n - 2016*k + 384*n^4 + 3120*n^3 + 9536*n^2 + 13092*n + 6892), (-112*k^2*n - 272*k^2 + 192*k*n^2 + 1216*k*n + 1824*k - 480*n^2 - 2340*n - 2860);
+    (112*k^2*n^4 + 1032*k^2*n^3 + 3512*k^2*n^2 + 5232*k^2*n + 2880*k^2 - 304*k*n^5 - 3504*k*n^4 - 16004*k*n^3 - 36204*k*n^2 - 40560*k*n - 18000*k + 192*n^6 + 2632*n^5 + 14924*n^4 + 44804*n^3 + 75112*n^2 + 66672*n + 24480), (32*k^2*n^3 + 208*k^2*n^2 + 416*k^2*n + 240*k^2 - 224*k*n^4 - 1984*k*n^3 - 6464*k*n^2 - 9204*k*n - 4860*k + 272*n^5 + 3088*n^4 + 13908*n^3 + 31148*n^2 + 34846*n + 15690), (-80*k^2*n^2 - 440*k^2*n - 600*k^2 + 128*k*n^3 + 1232*k*n^2 + 3864*k*n + 3960*k - 320*n^3 - 2580*n^2 - 6910*n - 6150);
+    (80*k^2*n^5 + 992*k^2*n^4 + 4852*k^2*n^3 + 11692*k^2*n^2 + 13872*k^2*n + 6480*k^2 - 208*k*n^6 - 3080*k*n^5 - 18804*k*n^4 - 60574*k*n^3 - 108566*k*n^2 - 102624*k*n - 39960*k + 128*n^7 + 2184*n^6 + 15824*n^5 + 63114*n^4 + 149666*n^3 + 211020*n^2 + 163800*n + 54000), (32*k^2*n^4 + 304*k^2*n^3 + 1040*k^2*n^2 + 1488*k^2*n + 720*k^2 - 176*k*n^5 - 2128*k*n^4 - 10100*k*n^3 - 23496*k*n^2 - 26778*k*n - 11970*k + 192*n^6 + 2824*n^5 + 17104*n^4 + 54650*n^3 + 97316*n^2 + 91833*n + 36045), (-48*k^2*n^3 - 432*k^2*n^2 - 1284*k^2*n - 1260*k^2 + 64*k*n^4 + 896*k*n^3 + 4552*k*n^2 + 10020*k*n + 8100*k + 16*n^5 - 1320*n^3 - 7520*n^2 - 15981*n - 12015)]
 
-def Lm (n k : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
-  !![(-k + n + 2), (1), (0);
-    (0), (-k + n + 2), (1);
-    (-2*k*n^3 - 11*k*n^2 - 20*k*n - 12*k + 2*n^4 + 15*n^3 + 42*n^2 + 52*n + 24) / (2*k - 7), (4*k*n^2 + 16*k*n + 16*k - 2*n^2 - 8*n - 5) / (2*(2*k - 7)), (-4*k^2 + 8*k*n + 28*k - 8*n^2 - 44*n - 67) / (2*(2*k - 7))]
+def Lnum (n k : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
+  !![(-4*k^2 + 4*k*n + 22*k - 14*n - 28), (4*k - 14), (0);
+    (0), (-4*k^2 + 4*k*n + 22*k - 14*n - 28), (4*k - 14);
+    (-4*k*n^3 - 22*k*n^2 - 40*k*n - 24*k + 4*n^4 + 30*n^3 + 84*n^2 + 104*n + 48), (4*k*n^2 + 16*k*n + 16*k - 2*n^2 - 8*n - 5), (-4*k^2 + 8*k*n + 28*k - 8*n^2 - 44*n - 67)]
 
 def Mm (n : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
   !![(-272*n^7 - 5160*n^6 - 41832*n^5 - 187890*n^4 - 505033*n^3 - 812505*n^2 - 724563*n - 276345), (384*n^6 + 6384*n^5 + 44168*n^4 + 162698*n^3 + 336377*n^2 + 369933*n + 169011), (-480*n^4 - 4980*n^3 - 19210*n^2 - 32690*n - 20730);
     (192*n^8 + 3944*n^7 + 35272*n^6 + 179374*n^5 + 567338*n^4 + 1142826*n^3 + 1431798*n^2 + 1020096*n + 316440), (-272*n^7 - 4936*n^6 - 38212*n^5 - 163504*n^4 - 417425*n^3 - 635588*n^2 - 534276*n - 191232), (320*n^5 + 3820*n^4 + 18050*n^3 + 42240*n^2 + 49000*n + 22560);
     (-128*n^9 - 2808*n^8 - 27184*n^7 - 152386*n^6 - 544956*n^5 - 1288868*n^4 - 2015172*n^3 - 2007570*n^2 - 1155672*n - 292680), (192*n^8 + 3752*n^7 + 31820*n^6 + 152852*n^5 + 454528*n^4 + 856111*n^3 + 996616*n^2 + 655020*n + 185904), (-16*n^7 - 472*n^6 - 4608*n^5 - 22164*n^4 - 59438*n^3 - 90792*n^2 - 73976*n - 24960)]
 
+/-- The common denominator `D(n) = 4 (n+1)(n+2)(n+3)(2n+3)(2n+5)` of `T`. -/
+def Dn (n : ℝ) : ℝ := 4 * (n + 1) * (n + 2) * (n + 3) * (2 * n + 3) * (2 * n + 5)
+
+/-- The denominator `E(k) = 2 (2k - 7)` of `L`. -/
+def Ek (k : ℝ) : ℝ := 2 * (2 * k - 7)
+
+/-- `T(n, k)`, written over its common denominator: `T = Tnum / D(n)`. -/
+noncomputable def Tm (n k : ℝ) : Matrix (Fin 3) (Fin 3) ℝ := (1 / Dn n) • Tnum n k
+
+/-- `L(n, k)`, written over its common denominator: `L = Lnum / E(k)`. -/
+noncomputable def Lm (n k : ℝ) : Matrix (Fin 3) (Fin 3) ℝ := (1 / Ek k) • Lnum n k
+
 /-- `σ(n) = -2 (n+2)² (n+3)² (2n+5) (2n+7)²`. -/
 def sigma (n : ℝ) : ℝ := -2 * (n + 2) ^ 2 * (n + 3) ^ 2 * (2 * n + 5) * (2 * n + 7) ^ 2
 
-set_option maxHeartbeats 8000000 in
-/-- Proposition 5: the column convention matches the official matrix, `T(n,0) M(n) = σ(n) I`. -/
-theorem column_convention (n : ℝ) (h1 : n + 1 ≠ 0) (h2 : n + 2 ≠ 0) (h3 : n + 3 ≠ 0) (h4 : 2 * n + 3 ≠ 0) (h5 : 2 * n + 5 ≠ 0) :
+/-- Cleared form of the column convention: `Tnum(n, 0) M(n) = D(n) σ(n) I`. -/
+theorem column_convention_num (n : ℝ) :
+    Tnum n 0 * Mm n = (Dn n * sigma n) • (1 : Matrix (Fin 3) (Fin 3) ℝ) := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [Tnum, Mm, Dn, sigma, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply] <;> ring
+
+/-- Proposition 5: the column convention matches the official matrix, `T(n,0) M(n) = σ(n) I`,
+wherever the denominator `D(n)` is nonzero. -/
+theorem column_convention (n : ℝ) (hD : Dn n ≠ 0) :
     Tm n 0 * Mm n = sigma n • (1 : Matrix (Fin 3) (Fin 3) ℝ) := by
+  rw [Tm, smul_mul_assoc, column_convention_num, smul_smul]
+  congr 1
+  field_simp
+
+/-- Cleared form of the plaquette identity: `Lnum(n+1, k) Tnum(n, k) = Tnum(n, k-1) Lnum(n, k)`. -/
+theorem plaquette_num (n k : ℝ) :
+    Lnum (n + 1) k * Tnum n k = Tnum n (k - 1) * Lnum n k := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Tm, Mm, sigma, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply] <;>
-    field_simp <;> ring
+    simp [Tnum, Lnum, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
 
-set_option maxHeartbeats 8000000 in
-/-- Proposition 5: the global plaquette identity `L(n+1, k) T(n, k) = T(n, k-1) L(n, k)`. -/
-theorem plaquette (n k : ℝ) (h1 : n + 1 ≠ 0) (h2 : n + 2 ≠ 0) (h3 : n + 3 ≠ 0) (h4 : 2 * n + 3 ≠ 0) (h5 : 2 * n + 5 ≠ 0) (h7 : 2 * k - 7 ≠ 0) :
+/-- Proposition 5: the global plaquette identity `L(n+1, k) T(n, k) = T(n, k-1) L(n, k)`, as an
+identity of rational functions (both sides carry the same denominators `D(n) E(k)`). -/
+theorem plaquette (n k : ℝ) :
     Lm (n + 1) k * Tm n k = Tm n (k - 1) * Lm n k := by
-  ext i j
-  fin_cases i <;> fin_cases j <;>
-    simp [Tm, Lm, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    field_simp <;> ring
+  rw [Lm, Tm, Tm, Lm, smul_mul_smul_comm, smul_mul_smul_comm, plaquette_num, mul_comm (1 / Ek k)]
 
-set_option maxHeartbeats 8000000 in
-/-- Proposition 5: the determinant of `T(n, k)`. -/
-theorem det_T (n k : ℝ) (h1 : n + 1 ≠ 0) (h2 : n + 2 ≠ 0) (h3 : n + 3 ≠ 0) (h4 : 2 * n + 3 ≠ 0) (h5 : 2 * n + 5 ≠ 0) :
+/-- Cleared form of the determinant:
+`det Tnum = 64 (n+1)² (n+2)² (n+3)³ (2n+3) (2n+5)² (2n+7)(k-n-3)(k-n-2)(2k-2n-7)(2k-2n-5)`. -/
+theorem det_num (n k : ℝ) :
+    (Tnum n k).det = 64 * (n + 1) ^ 2 * (n + 2) ^ 2 * (n + 3) ^ 3 * (2 * n + 3) *
+      (2 * n + 5) ^ 2 * (2 * n + 7) * (k - n - 3) * (k - n - 2) * (2 * k - 2 * n - 7) *
+      (2 * k - 2 * n - 5) := by
+  rw [Matrix.det_fin_three]
+  simp [Tnum] <;> ring
+
+/-- Proposition 5: `det T = (2n+7)(k-n-3)(k-n-2)(2k-2n-7)(2k-2n-5) / ((n+1)(n+2)(2n+3)²(2n+5))`. -/
+theorem det_T (n k : ℝ) (h1 : n + 1 ≠ 0) (h2 : n + 2 ≠ 0) (h3 : n + 3 ≠ 0)
+    (h4 : 2 * n + 3 ≠ 0) (h5 : 2 * n + 5 ≠ 0) :
     (Tm n k).det = (2 * n + 7) * (k - n - 3) * (k - n - 2) * (2 * k - 2 * n - 7) *
       (2 * k - 2 * n - 5) / ((n + 1) * (n + 2) * (2 * n + 3) ^ 2 * (2 * n + 5)) := by
-  rw [Matrix.det_fin_three]
-  simp [Tm] <;> field_simp <;> ring
+  rw [Tm, Matrix.det_smul, det_num, Fintype.card_fin, Dn]
+  field_simp <;> ring
 
 /-- Appendix B: the limiting matrix `B₀`. -/
 def B0 : Matrix (Fin 3) (Fin 3) ℝ := !![17, 24, 0; 12, 17, 0; 8, 12, 1]

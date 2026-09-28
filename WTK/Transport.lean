@@ -78,8 +78,8 @@ theorem gram_selection_step (l₁ η δ s c : ℝ) (hδ : 0 < δ)
 
 /-- Tied growth, a selected line: `B_N = 2ᴺ diag(2, 1)` has Gram matrix `(2ᴺ)² diag(4, 1)`. -/
 theorem tied_fixed_gram (N : ℕ) :
-    ((2 : ℝ) ^ N • diagonal ![2, 1])ᵀ * ((2 : ℝ) ^ N • diagonal ![2, 1]) =
-      ((2 : ℝ) ^ N) ^ 2 • diagonal ![4, 1] := by
+    ((2 : ℝ) ^ N • diagonal ![(2 : ℝ), 1])ᵀ * ((2 : ℝ) ^ N • diagonal ![(2 : ℝ), 1]) =
+      ((2 : ℝ) ^ N) ^ 2 • diagonal ![(4 : ℝ), 1] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_two, diagonal] <;> ring
@@ -88,7 +88,7 @@ theorem tied_fixed_gram (N : ℕ) :
 fixed although both modes grow at the same exponential rate. -/
 theorem tied_fixed_normalized (N : ℕ) :
     (1 / (((2 : ℝ) ^ N) ^ 2 * 5)) • (((2 : ℝ) ^ N) ^ 2 • diagonal ![(4 : ℝ), 1]) =
-      diagonal ![4 / 5, 1 / 5] := by
+      diagonal ![(4 : ℝ) / 5, 1 / 5] := by
   have h : ((2 : ℝ) ^ N) ^ 2 ≠ 0 := by positivity
   ext i j
   fin_cases i <;> fin_cases j <;> simp [diagonal] <;> field_simp <;> ring
