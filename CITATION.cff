@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use these Lean proofs, please cite them as below, together with the paper."
+title: "What Transport Keeps: Lean proofs"
+authors:
+  - family-names: "Beasley"
+    given-names: "Jeromie"
+version: 1.0.0
+date-released: 2026-09-27
+license:
+  - MIT
+  - CC-BY-4.0
+repository-code: "https://github.com/dicipler-pixel/what-transport-keeps-lean"
+keywords:
+  - Lean 4
+  - Mathlib
+  - formal verification
+  - projector selection
+  - conserved pairings
+  - matrix fields
+  - Catalan's constant
+references:
+  - type: article
+    title: "What Transport Keeps: Projector selection, conserved pairings, and spectral geometry after the Ramanujan Challenge"
+    authors:
+      - family-names: "Beasley"
+        given-names: "Jeromie"
+    doi: "10.5281/zenodo.22543487"
+    year: 2026
