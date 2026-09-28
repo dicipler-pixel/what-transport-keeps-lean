@@ -17,7 +17,7 @@
    "path": "WTK/Response.lean"
   }
  ],
- "expected_theorems": 46,
+ "expected_theorems": 49,
  "expected_false_controls": 2,
  "root_imports": [
   "WTK.Transport",
