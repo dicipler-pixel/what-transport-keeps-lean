@@ -21,6 +21,20 @@ anything about the numbers themselves.
   `sin²(π/2) = 1`, `sin²(π/4) = 1/2`, `sin²(π/6) = 1/4` are proved, not the capacity count.
 - **Proposition 9.** The derivative of the projector is proved entry by entry; the metric value
   `1/4` is proved from those entries.
+- **Proposition 4a, dual certificate.** Proved as the general weak-duality lemma: for any `C`,
+  `b`, `y` with `y ᵥ* C = b`, every `c` with `C c = 0` has `b ⬝ c = 0`. No specific certificate
+  is instantiated.
+- **Proposition 7.** The stress identity `½‖uuᵀ - vvᵀ‖²_F = 1 - (u·v)²` for unit `u, v` and its
+  product rule are proved. The identities `BBᵀ = uuᵀ` and `BᵀB = vvᵀ` named in the header of
+  `WTK/Response.lean` are not stated as separate theorems.
+- **Appendices A and B, certificates.** The cubic `q`, the curvature numerator `curvNum` and
+  denominator `curvDen` (already reduced modulo `q`) and the limiting matrix `B₀` are entered as
+  explicit polynomials and an explicit matrix. Lean proves the signs of `q` at `0, 1, 4, 40`, that
+  `curvNum` and `curvDen` vanish at no root of `q` (Bézout certificates), and the characteristic
+  polynomial of `B₀`. It does not prove that `q` is the characteristic polynomial at
+  `(n, k) = (2, 0)`, that `curvNum` and `curvDen` are the reduced curvature, or that `B₀` is the
+  limit; the step from the sign pattern to three real roots (intermediate value theorem) is not
+  formalized.
 
 **Not proved.**
 

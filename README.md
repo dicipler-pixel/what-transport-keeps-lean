@@ -28,8 +28,8 @@ spectral geometry after the Ramanujan Challenge*
 | File | Theorems | Paper | What it does |
 | :--- | :-: | :--- | :--- |
 | [`WTK/Transport.lean`](WTK/Transport.lean) | 8 | §1–2, Theorems 1, 3, 4 | The pairing `ℓᵀx` is conserved under `x ↦ Ax`, `ℓ ↦ A⁻ᵀℓ` and under moving frames; the scalar readout-error bound; coboundary telescoping in any monoid; the combining step `1 − Tr(Q_N Q) ≤ 2η/δ`; tied growth with and without a selected line |
-| [`WTK/Catalan.lean`](WTK/Catalan.lean) | 10 | §3, Proposition 4a | `det U₀ = −382493/5040`; `A U₀⁻ᵀ f = 450 (G, 1)`, with `log 2` cancelling; the rational row `w` with `wᵀJ = (1, 0, 0)`; the dual certificate that excludes retention; the numerator limit |
-| [`WTK/Field.lean`](WTK/Field.lean) | 16 | §4, Proposition 5, Appendices A–B | The column convention `T(n,0) M(n) = σ(n) I`; the plaquette `L(n+1,k) T(n,k) = T(n,k−1) L(n,k)`; the factored `det T`; `B₀`'s characteristic polynomial `(z−1)(z²−34z+1)`; sign changes of `q`; Bézout certificates that the curvature never vanishes at a root of `q`; the antisymmetric sum rule |
+| [`WTK/Catalan.lean`](WTK/Catalan.lean) | 10 | §3, Proposition 4a | `det U₀ = −382493/5040`; `A U₀⁻ᵀ f = 450 (G, 1)`, with `log 2` cancelling; the rational row `w` with `wᵀJ = (1, 0, 0)`; the weak-duality lemma behind the dual certificate (for general `C`, `b`, `y`); the numerator limit |
+| [`WTK/Field.lean`](WTK/Field.lean) | 16 | §4, Proposition 5, Appendices A–B | The column convention `T(n,0) M(n) = σ(n) I`; the plaquette `L(n+1,k) T(n,k) = T(n,k−1) L(n,k)`; the factored `det T`; `B₀`'s characteristic polynomial `(z−1)(z²−34z+1)`; sign changes of `q`; Bézout certificates that the given curvature numerator and denominator polynomials (reduced modulo `q` outside Lean) never vanish at a root of `q`; the antisymmetric sum rule |
 | [`WTK/Response.lean`](WTK/Response.lean) | 15 | §5–7, Propositions 7–10 | Rank-one stress `1 − (u·v)²` and its product rule; the capacity boundaries `1, 1/2, 1/4`; fixed levels `±Δ/2` with a moving projector, metric `1/4` and transition strength `d² sin²ϑ`; boundary elimination and exterior sensitivity for general matrix blocks |
 | | **49** | | |
 
